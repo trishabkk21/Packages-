@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import java.util.*;
 
 public class NBATeamReader {
-    private List<NBATeam> memo = new ArrayList<>();
+    private final List<NBATeam> memo = new ArrayList<>();
 
     public List<NBATeam> getNBATeams() {
         if (!memo.isEmpty()) {
