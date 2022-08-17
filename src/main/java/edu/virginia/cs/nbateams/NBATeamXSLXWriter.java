@@ -21,29 +21,45 @@ public class NBATeamXSLXWriter {
     public void writeNBATeamsToFile(List<NBATeam> nbaTeamList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
         Sheet worksheet = workbook.createSheet("NBA Teams");
-        Row titleRow = worksheet.createRow(0);
-        rowCount++;
-        for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
-            Cell newCell = titleRow.createCell(columnIndex);
-            newCell.setCellValue(COLUMN_HEADERS[columnIndex]);
-        }
+        Row titleRow = getNextRow(worksheet);
+        putStringArrayInRow(titleRow, COLUMN_HEADERS);
+        addTeamsToWorksheet(nbaTeamList, worksheet);
+        resizeColumns(worksheet);
+        saveAndCloseWorkbook(workbook);
+    }
+
+    private void addTeamsToWorksheet(List<NBATeam> nbaTeamList, Sheet worksheet) {
         for (NBATeam team : nbaTeamList) {
             String[] teamArray = getTeamStringArray(team);
-            Row newRow = worksheet.createRow(rowCount);
-            rowCount++;
-            for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
-                Cell newCell = newRow.createCell(columnIndex);
-                newCell.setCellValue(teamArray[columnIndex]);
-            }
+            Row newRow = getNextRow(worksheet);
+            putStringArrayInRow(newRow, teamArray);
         }
-        for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
-            worksheet.autoSizeColumn(columnIndex);
-        }
+    }
 
+    private void saveAndCloseWorkbook(Workbook workbook) throws IOException {
         FileOutputStream fileOut = new FileOutputStream(excelFilename);
         workbook.write(fileOut);
         fileOut.close();
         workbook.close();
+    }
+
+    private void resizeColumns(Sheet worksheet) {
+        for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
+            worksheet.autoSizeColumn(columnIndex);
+        }
+    }
+
+    private void putStringArrayInRow(Row titleRow, String[] COLUMN_HEADERS) {
+        for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
+            Cell newCell = titleRow.createCell(columnIndex);
+            newCell.setCellValue(COLUMN_HEADERS[columnIndex]);
+        }
+    }
+
+    private Row getNextRow(Sheet worksheet) {
+        Row titleRow = worksheet.createRow(rowCount);
+        rowCount++;
+        return titleRow;
     }
 
     private String[] getTeamStringArray(NBATeam team) {

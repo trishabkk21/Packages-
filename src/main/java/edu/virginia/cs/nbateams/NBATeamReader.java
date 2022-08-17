@@ -17,25 +17,41 @@ public class NBATeamReader {
     }
 
     private void getTeamsFromAPI() {
-        BallDontLieReader apiReader = new BallDontLieReader();
-        JSONObject apiOutput = apiReader.getAllNBATeams();
-        JSONArray teamArray = apiOutput.getJSONArray("data");
+        JSONArray teamArray = getTeamsArrayFromAPI();
         for (Object teamObject : teamArray) {
             JSONObject teamJSon = (JSONObject) teamObject;
-            int id = teamJSon.getInt("id");
-            String abbreviation = teamJSon.getString("abbreviation");
-            String city = teamJSon.getString("city");
-            String name = teamJSon.getString("name");
-
-            String conferenceText = teamJSon.getString("conference");
-            Conference conference = Conference.getConference(conferenceText);
-            String divisionText = teamJSon.getString("division");
-            Division division = Division.getDivision(divisionText);
-
-            NBATeam newTeam = new NBATeam(id, name, city, abbreviation,
-                    conference, division);
+            NBATeam newTeam = getTeamFromJSONObject(teamJSon);
             memo.add(newTeam);
         }
+    }
+
+    private NBATeam getTeamFromJSONObject(JSONObject teamJSon) {
+        int id = teamJSon.getInt("id");
+        String abbreviation = teamJSon.getString("abbreviation");
+        String city = teamJSon.getString("city");
+        String name = teamJSon.getString("name");
+
+        Conference conference = getConference(teamJSon);
+        Division division = getDivision(teamJSon);
+
+        return new NBATeam(id, name, city, abbreviation,
+                conference, division);
+    }
+
+    private Division getDivision(JSONObject teamJSon) {
+        String divisionText = teamJSon.getString("division");
+        return Division.getDivision(divisionText);
+    }
+
+    private Conference getConference(JSONObject teamJSon) {
+        String conferenceText = teamJSon.getString("conference");
+        return Conference.getConference(conferenceText);
+    }
+
+    private JSONArray getTeamsArrayFromAPI() {
+        BallDontLieReader apiReader = new BallDontLieReader();
+        JSONObject apiOutput = apiReader.getAllNBATeams();
+        return apiOutput.getJSONArray("data");
     }
 
 }
