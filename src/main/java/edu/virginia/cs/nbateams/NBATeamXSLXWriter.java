@@ -9,9 +9,9 @@ import java.util.*;
 
 public class NBATeamXSLXWriter {
     private final String excelFilename;
-    private int rowCount;
     private final String[] COLUMN_HEADERS =
             {"ID", "Abbrv", "City", "Name", "Conference", "Division"};
+    private int rowCount;
 
     public NBATeamXSLXWriter(String excelFilename) {
         this.excelFilename = excelFilename;
@@ -20,9 +20,13 @@ public class NBATeamXSLXWriter {
 
     public void writeNBATeamsToFile(List<NBATeam> nbaTeamList) throws IOException {
         Workbook workbook = new XSSFWorkbook();
+        populateSaveAndCloseWorkbook(nbaTeamList, workbook);
+    }
+
+    private void populateSaveAndCloseWorkbook(List<NBATeam> nbaTeamList, Workbook workbook) throws IOException {
         Sheet worksheet = workbook.createSheet("NBA Teams");
         Row titleRow = getNextRow(worksheet);
-        putStringArrayInRow(titleRow, COLUMN_HEADERS);
+        putHeaderStringArrayInFirstRow(titleRow, COLUMN_HEADERS);
         addTeamsToWorksheet(nbaTeamList, worksheet);
         resizeColumns(worksheet);
         saveAndCloseWorkbook(workbook);
@@ -32,7 +36,7 @@ public class NBATeamXSLXWriter {
         for (NBATeam team : nbaTeamList) {
             String[] teamArray = getTeamStringArray(team);
             Row newRow = getNextRow(worksheet);
-            putStringArrayInRow(newRow, teamArray);
+            putHeaderStringArrayInFirstRow(newRow, teamArray);
         }
     }
 
@@ -49,17 +53,26 @@ public class NBATeamXSLXWriter {
         }
     }
 
-    private void putStringArrayInRow(Row titleRow, String[] COLUMN_HEADERS) {
+    private void putHeaderStringArrayInFirstRow(Row titleRow, String[] COLUMN_HEADERS) {
         for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
             Cell newCell = titleRow.createCell(columnIndex);
             newCell.setCellValue(COLUMN_HEADERS[columnIndex]);
         }
     }
 
+    private void putNBATeamArrayInRow(Row row, String[] contents) {
+        Cell idCell = row.createCell(0);
+        idCell.setCellValue(Integer.parseInt(contents[0]));
+        for (int columnIndex = 1; columnIndex < contents.length; columnIndex++) {
+            Cell newCell = row.createCell(columnIndex);
+            newCell.setCellValue(contents[columnIndex]);
+        }
+    }
+
     private Row getNextRow(Sheet worksheet) {
-        Row titleRow = worksheet.createRow(rowCount);
+        Row newRow = worksheet.createRow(rowCount);
         rowCount++;
-        return titleRow;
+        return newRow;
     }
 
     private String[] getTeamStringArray(NBATeam team) {
