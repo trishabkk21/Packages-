@@ -21,7 +21,8 @@ public class NBATeamExcelWriter {
 
     public void writeNBATeamsToFile(List<NBATeam> nbaTeamList) throws IOException {
         openWorkbook();
-        populateSaveAndCloseWorkbook(nbaTeamList);
+        addTeamsToWorkbook(nbaTeamList);
+        saveAndCloseWorkbook();
     }
 
     private void openWorkbook() {
@@ -29,13 +30,12 @@ public class NBATeamExcelWriter {
         workbook = workbookFactory.getWorkbook(excelFilename);
     }
 
-    private void populateSaveAndCloseWorkbook(List<NBATeam> nbaTeamList) throws IOException {
+    private void addTeamsToWorkbook(List<NBATeam> nbaTeamList) throws IOException {
         worksheet = workbook.createSheet("NBA Teams");
         Row titleRow = getNextRow();
         putHeaderStringArrayInFirstRow(titleRow);
         addTeamsToWorksheet(nbaTeamList);
         resizeColumns();
-        saveAndCloseWorkbook();
     }
 
     private void addTeamsToWorksheet(List<NBATeam> nbaTeamList) {
