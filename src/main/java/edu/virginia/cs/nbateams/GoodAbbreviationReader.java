@@ -31,8 +31,11 @@ public class GoodAbbreviationReader {
     public List<NBATeam> getGoodAbbreviationTeams() {
         openXLSXWorkbook();
         List<NBATeam> allTeams = getAllNBATeamsFromWorkbook();
+        closeXLSXWorkbook();
         return extractGooAbbreviationTeams(allTeams);
     }
+
+
 
     private void openXLSXWorkbook() {
         try {
@@ -40,6 +43,14 @@ public class GoodAbbreviationReader {
             workbook = new XSSFWorkbook(inputStream);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Error: File " + filename + " not found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void closeXLSXWorkbook() {
+        try {
+            workbook.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -57,7 +68,7 @@ public class GoodAbbreviationReader {
 
     private List<NBATeam> getAllNbaTeamsFromRows() {
         List<NBATeam> teams = new ArrayList<>();
-        while(rowIterator.hasNext()) {
+        while(hasMoreRows()) {
             Row currentRow = rowIterator.next();
             NBATeam team = getTeamFromRow(currentRow);
             teams.add(team);
