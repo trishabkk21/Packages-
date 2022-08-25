@@ -9,13 +9,14 @@ public enum Division {
     SOUTHWEST;
 
     public static Division getDivision(String divisionText) {
-        return switch(divisionText) {
-            case "Atlantic" -> ATLANTIC;
-            case "Central" -> CENTRAL;
-            case "Southeast" -> SOUTHEAST;
-            case "Northwest" -> NORTHWEST;
-            case "Pacific" -> PACIFIC;
-            case "Southwest" -> SOUTHWEST;
+        String uppercaseDivision = divisionText.toUpperCase();
+        return switch(uppercaseDivision) {
+            case "ATLANTIC" -> ATLANTIC;
+            case "CENTRAL" -> CENTRAL;
+            case "SOUTHEAST" -> SOUTHEAST;
+            case "NORTHWEST" -> NORTHWEST;
+            case "PACIFIC" -> PACIFIC;
+            case "SOUTHWEST" -> SOUTHWEST;
             default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Division name: " + divisionText);
         };
     }

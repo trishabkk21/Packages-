@@ -41,4 +41,16 @@ public class NBATeam {
     public Division getDivision() {
         return division;
     }
+
+    @Override
+    public String toString() {
+        return "NBATeam{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", abbreviation='" + abbreviation + '\'' +
+                ", conference=" + conference +
+                ", division=" + division +
+                '}';
+    }
 }

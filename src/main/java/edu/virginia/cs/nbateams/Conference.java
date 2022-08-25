@@ -5,9 +5,10 @@ public enum Conference {
     WESTERN;
 
     static Conference getConference(String conferenceText) {
-        return switch (conferenceText) {
-            case "East" -> EASTERN;
-            case "West" -> WESTERN;
+        String uppercaseConference = conferenceText.toUpperCase();
+        return switch (uppercaseConference) {
+            case "EAST", "EASTERN" -> EASTERN;
+            case "WEST", "WESTERN" -> WESTERN;
             default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Conference name: " + conferenceText);
         };
     }
