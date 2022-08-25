@@ -54,10 +54,4 @@ public class NBATeamReader {
         return Conference.getConference(conferenceText);
     }
 
-    private JSONArray getTeamsArrayFromAPI() {
-        BallDontLieReader apiReader = new BallDontLieReader();
-        JSONObject apiOutput = apiReader.getAllNBATeams();
-        return apiOutput.getJSONArray("data");
-    }
-
 }
