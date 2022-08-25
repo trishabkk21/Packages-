@@ -1,5 +1,7 @@
 package edu.virginia.cs.nbateams;
 
+import java.util.Arrays;
+
 public enum Division {
     ATLANTIC,
     CENTRAL,
@@ -17,7 +19,9 @@ public enum Division {
             case "NORTHWEST" -> NORTHWEST;
             case "PACIFIC" -> PACIFIC;
             case "SOUTHWEST" -> SOUTHWEST;
-            default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Division name: " + divisionText);
+            default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Division name: "
+                    + divisionText + "\n"+
+                    "\tAccepted Divisions: " + Arrays.toString(Conference.values()));
         };
     }
 }

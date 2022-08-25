@@ -1,5 +1,7 @@
 package edu.virginia.cs.nbateams;
 
+import java.util.Arrays;
+
 public enum Conference {
     EASTERN,
     WESTERN;
@@ -9,7 +11,9 @@ public enum Conference {
         return switch (uppercaseConference) {
             case "EAST", "EASTERN" -> EASTERN;
             case "WEST", "WESTERN" -> WESTERN;
-            default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Conference name: " + conferenceText);
+            default -> throw new IllegalArgumentException("Illegal edu.virginia.cs.nbateams.Conference name: " +
+                    conferenceText + "\n"+
+                    "\tAccepted conferences: " + Arrays.toString(Conference.values()));
         };
     }
 }
