@@ -15,7 +15,7 @@ public class Main {
     }
 
     private static void writeNBATeamsListToExcelFile(String filename, List<NBATeam> teams) throws IOException {
-        NBATeamXSLXWriter writer = new NBATeamXSLXWriter(filename);
+        NBATeamExcelWriter writer = new NBATeamExcelWriter(filename);
         writer.writeNBATeamsToFile(teams);
     }
 

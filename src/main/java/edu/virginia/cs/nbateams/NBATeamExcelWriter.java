@@ -1,59 +1,65 @@
 package edu.virginia.cs.nbateams;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-public class NBATeamXSLXWriter {
+public class NBATeamExcelWriter {
     private final String excelFilename;
     private final String[] COLUMN_HEADERS =
             {"ID", "Abbrv", "City", "Name", "Conference", "Division"};
     private int rowCount;
+    private Workbook workbook;
+    private Sheet worksheet;
 
-    public NBATeamXSLXWriter(String excelFilename) {
+    public NBATeamExcelWriter(String excelFilename) {
         this.excelFilename = excelFilename;
         this.rowCount = 0;
     }
 
     public void writeNBATeamsToFile(List<NBATeam> nbaTeamList) throws IOException {
-        Workbook workbook = new XSSFWorkbook();
-        populateSaveAndCloseWorkbook(nbaTeamList, workbook);
+        openWorkbook();
+        populateSaveAndCloseWorkbook(nbaTeamList);
     }
 
-    private void populateSaveAndCloseWorkbook(List<NBATeam> nbaTeamList, Workbook workbook) throws IOException {
-        Sheet worksheet = workbook.createSheet("NBA Teams");
-        Row titleRow = getNextRow(worksheet);
-        putHeaderStringArrayInFirstRow(titleRow, COLUMN_HEADERS);
-        addTeamsToWorksheet(nbaTeamList, worksheet);
-        resizeColumns(worksheet);
-        saveAndCloseWorkbook(workbook);
+    private void openWorkbook() {
+        SSWorkbookFactory workbookFactory = new SSWorkbookFactory();
+        workbook = workbookFactory.getWorkbook(excelFilename);
     }
 
-    private void addTeamsToWorksheet(List<NBATeam> nbaTeamList, Sheet worksheet) {
+    private void populateSaveAndCloseWorkbook(List<NBATeam> nbaTeamList) throws IOException {
+        worksheet = workbook.createSheet("NBA Teams");
+        Row titleRow = getNextRow();
+        putHeaderStringArrayInFirstRow(titleRow);
+        addTeamsToWorksheet(nbaTeamList);
+        resizeColumns();
+        saveAndCloseWorkbook();
+    }
+
+    private void addTeamsToWorksheet(List<NBATeam> nbaTeamList) {
         for (NBATeam team : nbaTeamList) {
             String[] teamArray = getTeamStringArray(team);
-            Row newRow = getNextRow(worksheet);
-            putHeaderStringArrayInFirstRow(newRow, teamArray);
+            Row newRow = getNextRow();
+            putNBATeamArrayInRow(newRow, teamArray);
         }
     }
 
-    private void saveAndCloseWorkbook(Workbook workbook) throws IOException {
+    private void saveAndCloseWorkbook() throws IOException {
         FileOutputStream fileOut = new FileOutputStream(excelFilename);
         workbook.write(fileOut);
         fileOut.close();
         workbook.close();
     }
 
-    private void resizeColumns(Sheet worksheet) {
+    private void resizeColumns() {
         for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
             worksheet.autoSizeColumn(columnIndex);
         }
     }
 
-    private void putHeaderStringArrayInFirstRow(Row titleRow, String[] COLUMN_HEADERS) {
+    private void putHeaderStringArrayInFirstRow(Row titleRow) {
         for (int columnIndex = 0; columnIndex < COLUMN_HEADERS.length; columnIndex++) {
             Cell newCell = titleRow.createCell(columnIndex);
             newCell.setCellValue(COLUMN_HEADERS[columnIndex]);
@@ -69,7 +75,7 @@ public class NBATeamXSLXWriter {
         }
     }
 
-    private Row getNextRow(Sheet worksheet) {
+    private Row getNextRow() {
         Row newRow = worksheet.createRow(rowCount);
         rowCount++;
         return newRow;
