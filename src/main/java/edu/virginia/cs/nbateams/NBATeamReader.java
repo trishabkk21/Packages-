@@ -25,6 +25,12 @@ public class NBATeamReader {
         }
     }
 
+    private JSONArray getTeamsArrayFromAPI() {
+        BallDontLieReader apiReader = new BallDontLieReader();
+        JSONObject apiOutput = apiReader.getAllNBATeams();
+        return apiOutput.getJSONArray("data");
+    }
+
     private NBATeam getTeamFromJSONObject(JSONObject teamJSon) {
         int id = teamJSon.getInt("id");
         String abbreviation = teamJSon.getString("abbreviation");
