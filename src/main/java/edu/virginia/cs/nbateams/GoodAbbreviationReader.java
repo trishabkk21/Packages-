@@ -100,12 +100,9 @@ public class GoodAbbreviationReader {
     }
 
     private List<NBATeam> extractGooAbbreviationTeams(List<NBATeam> allTeams) {
-        List<NBATeam> filteredTeams = allTeams.stream()
-                .filter(x -> x.getAbbreviation().equals(
-                        x.getCity().substring(0,
-                                Math.min(x.getCity().length(), 3))
-                                .toUpperCase()))
+        return allTeams.stream()
+                .filter(x -> x.getAbbreviation().equalsIgnoreCase(
+                        x.getCity().substring(0, Math.min(x.getCity().length(), 3))))
                 .collect(Collectors.toList());
-        return filteredTeams;
     }
 }
