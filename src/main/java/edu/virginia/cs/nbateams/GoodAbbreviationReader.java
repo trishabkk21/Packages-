@@ -32,7 +32,7 @@ public class GoodAbbreviationReader {
         openXLSXWorkbook();
         List<NBATeam> allTeams = getAllNBATeamsFromWorkbook();
         closeXLSXWorkbook();
-        return extractGooAbbreviationTeams(allTeams);
+        return extractGoodAbbreviationTeams(allTeams);
     }
 
 
@@ -99,7 +99,7 @@ public class GoodAbbreviationReader {
         return new NBATeam(id, name, city, abbreviation, conference, division);
     }
 
-    private List<NBATeam> extractGooAbbreviationTeams(List<NBATeam> allTeams) {
+    public List<NBATeam> extractGoodAbbreviationTeams(List<NBATeam> allTeams) {
         return allTeams.stream()
                 .filter(x -> x.getAbbreviation().equalsIgnoreCase(
                         x.getCity().substring(0, Math.min(x.getCity().length(), 3))))
