@@ -3,7 +3,7 @@ package edu.virginia.cs.nbateams;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GoodTeamsFromReader {
+public class GoodAbbreviations {
     public List<NBATeam> extractGoodAbbreviationTeams(NBATeamReader nbaTeamReader) {
         List<NBATeam> allTeams = nbaTeamReader.getNBATeams();
         return allTeams.stream()
