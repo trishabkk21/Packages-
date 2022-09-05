@@ -32,10 +32,14 @@ public class NBATeamExcelWriter {
 
     private void addTeamsToWorkbook(List<NBATeam> nbaTeamList) throws IOException {
         worksheet = workbook.createSheet("NBA Teams");
-        Row titleRow = getNextRow();
-        putHeaderStringArrayInFirstRow(titleRow);
+        generateTitleRow();
         addTeamsToWorksheet(nbaTeamList);
         resizeColumns();
+    }
+
+    private void generateTitleRow() {
+        Row titleRow = getNextRow();
+        putHeaderStringArrayInFirstRow(titleRow);
     }
 
     private void addTeamsToWorksheet(List<NBATeam> nbaTeamList) {
