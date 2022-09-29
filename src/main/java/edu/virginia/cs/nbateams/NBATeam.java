@@ -53,4 +53,27 @@ public class NBATeam {
                 ", division=" + division +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NBATeam nbaTeam = (NBATeam) o;
+
+        if (getId() != nbaTeam.getId()) return false;
+        if (!getName().equals(nbaTeam.getName())) return false;
+        if (!getCity().equals(nbaTeam.getCity())) return false;
+        if (!getAbbreviation().equals(nbaTeam.getAbbreviation())) return false;
+        if (getConference() != nbaTeam.getConference()) return false;
+        return getDivision() == nbaTeam.getDivision();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getCity().hashCode();
+        return result;
+    }
 }

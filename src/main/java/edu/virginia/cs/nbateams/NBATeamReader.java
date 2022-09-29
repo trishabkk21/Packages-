@@ -7,6 +7,16 @@ import java.util.*;
 
 public class NBATeamReader {
     private final List<NBATeam> memo = new ArrayList<>();
+    private final BallDontLieReader apiReader;
+
+    protected NBATeamReader(BallDontLieReader apiReader) {
+        this.apiReader = apiReader;
+    }
+    public NBATeamReader() {
+        this(new BallDontLieReader());
+    }
+
+
 
     public List<NBATeam> getNBATeams() {
         if (!memo.isEmpty()) {
@@ -26,7 +36,6 @@ public class NBATeamReader {
     }
 
     private JSONArray getTeamsArrayFromAPI() {
-        BallDontLieReader apiReader = new BallDontLieReader();
         JSONObject apiOutput = apiReader.getAllNBATeams();
         return apiOutput.getJSONArray("data");
     }
