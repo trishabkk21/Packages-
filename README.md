@@ -1,4 +1,6 @@
-# NBAExcelTeams
+# NBAExcelTeams - for Spring 2023
+
+This is a working copy of my repo
 
 Build with `.\gradlew build`
 
