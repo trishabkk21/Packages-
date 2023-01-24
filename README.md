@@ -2,6 +2,8 @@
 
 This is a working copy of my repo
 
+It is simply a demonstration for SDE class!
+
 Build with `.\gradlew build`
 
 The Jar, when run, produces an Excel file that lists the basic information of every NBA Team
