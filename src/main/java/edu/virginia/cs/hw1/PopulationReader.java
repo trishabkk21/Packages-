@@ -9,17 +9,19 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class PopulationReader {
-    public static final String datacsvform = "TODO";
+    public static final String populationreaderURL = "https://drive.google.com/file/d/1E7J0Q3AnhXK2mUd-gApXH-iz_S7TLfLG/view?usp=share_link";
     public static final int numRepresentatives = 435;
     public JSONArray test = new JSONArray();
 
+
     private InputStreamReader getAPIReader() throws IOException {
-        URL dataURL = new URL(datacsvform);
+        URL dataURL = new URL(populationreaderURL);
         InputStream apiStream = dataURL.openStream();
         return new InputStreamReader(apiStream, StandardCharsets.UTF_8);
     }
 
-    private void populateArray() {
 
-    }
+
+
 }
+
