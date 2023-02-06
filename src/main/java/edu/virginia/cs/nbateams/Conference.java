@@ -2,7 +2,7 @@ package edu.virginia.cs.nbateams;
 
 import java.util.Arrays;
 
-public enum Conference {
+public enum Conference { 
     EASTERN,
     WESTERN;
 
