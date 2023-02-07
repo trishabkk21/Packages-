@@ -32,6 +32,7 @@ public class Apportionmenter {
         calcfinal();
     }
     //&& datapure.indexOf("\n") !=-1
+    //This should put the data from the csv into the hashmap
     private String inputMap() {
         int temp = 0;
         PopulationReader pr = new PopulationReader();
