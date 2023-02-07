@@ -1,5 +1,7 @@
 package edu.virginia.cs.hw1;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Apportionmenter {
@@ -31,22 +33,28 @@ public class Apportionmenter {
     //&& datapure.indexOf("\n") !=-1
     private String inputMap() {
         int temp = 0;
-        while(datapure.indexOf(", ") != -1) {
-            if(datapure.indexOf(", ") < datapure.indexOf("\n")) {
-                temp = Integer.parseInt(datapure.substring(datapure.indexOf(", ")+2, datapure.indexOf("\n")));
-                input.put(datapure.substring(0, datapure.indexOf(", ")), temp);
-                datapure = datapure.substring(datapure.indexOf("\n")+1);
+        PopulationReader pr = new PopulationReader();
+        try{
+            BufferedReader reader = new BufferedReader(pr.getAPIReader());
+            String curString;
+            while((curString = reader.readLine()) != null) {
+                System.out.println(curString);
+                String[] row = curString.split(",");
+                if (row.length < 2)
+                {
+                    break;
+                }
+                temp = Integer.parseInt(row[1]);
+                input.put(row[0], temp);
+
             }
-            else if(datapure.indexOf(", ") > datapure.indexOf("\n")) {
-                temp = Integer.parseInt(datapure.substring(datapure.indexOf(", ")+2));
-                input.put(datapure.substring(0, datapure.indexOf(", ")), temp);
-                break;
-            }
-            else {
-                System.out.println("This did not run");
-                break;
-            }
+
         }
+        catch(IOException ex){
+            System.out.println(ex.toString());
+            return null;
+        }
+
         input.entrySet().forEach( entry -> {
             toret = toret + entry.getKey() + " : " + entry.getValue() + "\n";
         });
