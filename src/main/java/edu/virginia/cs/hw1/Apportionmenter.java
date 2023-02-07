@@ -16,6 +16,7 @@ public class Apportionmenter {
     private double poptorep = 0;
     private int max = 0;
     private String maxkey = "";
+    private String tempforinputnum="";
     public Apportionmenter(int numRepin){
         //datapure = inputin;
         numRep = numRepin;
@@ -38,15 +39,10 @@ public class Apportionmenter {
             BufferedReader reader = new BufferedReader(pr.getAPIReader());
             String curString;
             while((curString = reader.readLine()) != null) {
-                System.out.println(curString);
-                String[] row = curString.split(",");
-                if (row.length < 2)
-                {
-                    break;
+                tempforinputnum = curString.substring(curString.indexOf(",")+1);
+                if(!tempforinputnum.equals(" Pop")) {
+                    input.put(curString.substring(0, curString.indexOf(",")), Integer.parseInt(tempforinputnum));
                 }
-                temp = Integer.parseInt(row[1]);
-                input.put(row[0], temp);
-
             }
 
         }
@@ -78,14 +74,18 @@ public class Apportionmenter {
     }
 
     private void calcfinal()  {
+        System.out.println(totalcurrep);
         for(int i = numRep - totalcurrep; i > 0; i--) {
             input.entrySet().forEach( entry -> {
                 if(entry.getValue() > max) {
                     maxkey = entry.getKey();
                     max = entry.getValue();
-                    input.put(entry.getKey(), 0);
                 }
             });
+            input.put(maxkey, 0);
+            output.put(maxkey, output.get(maxkey)+1);
+            max = 0;
+            maxkey = "";
         }
     }
     public void printfinal() {

@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.io.FileInputStream;
 
 public class PopulationReader {
-   public static final String populationreaderpath =  "Home/paths";
+   public static final String populationreaderpath =  "src/test/java/edu/virginia/cs/hw1/1990census.csv";
     public static final int numRepresentatives = 435;
     public JSONArray test = new JSONArray();
 
